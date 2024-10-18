@@ -1,0 +1,15 @@
+current directory: /Users/thaminduliyanage/Workspaces/ruby-sites/project-03/movie-backend/vendor/bundle/ruby/2.7.0/gems/racc-1.8.1/ext/racc/cparse
+/Users/thaminduliyanage/.rbenv/versions/2.7.2/bin/ruby -I /Users/thaminduliyanage/.rbenv/versions/2.7.2/lib/ruby/2.7.0 -r ./siteconf20241004-59140-tyn2y1.rb extconf.rb
+creating Makefile
+
+current directory: /Users/thaminduliyanage/Workspaces/ruby-sites/project-03/movie-backend/vendor/bundle/ruby/2.7.0/gems/racc-1.8.1/ext/racc/cparse
+make "DESTDIR=" clean
+
+current directory: /Users/thaminduliyanage/Workspaces/ruby-sites/project-03/movie-backend/vendor/bundle/ruby/2.7.0/gems/racc-1.8.1/ext/racc/cparse
+make "DESTDIR="
+compiling cparse.c
+linking shared-object racc/cparse.bundle
+
+current directory: /Users/thaminduliyanage/Workspaces/ruby-sites/project-03/movie-backend/vendor/bundle/ruby/2.7.0/gems/racc-1.8.1/ext/racc/cparse
+make "DESTDIR=" install
+/usr/bin/install -c -m 0755 cparse.bundle ./.gem.20241004-59140-11pckx5/racc
