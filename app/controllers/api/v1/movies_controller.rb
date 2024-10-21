@@ -3,7 +3,9 @@ module Api
     class MoviesController < ApplicationController
 
       def index
-        render json: Movie.all
+        movies = Movie.all
+        render json: MoviesRepresenter.new(movies).as_json
+
       end
     
       def create
