@@ -19,9 +19,13 @@ RSpec.describe 'Movies API', type: :request do
   describe 'POST /movies' do
     it 'create a new movie' do
       expect {
-        post '/api/v1/movies', params: {movie:{title:'samaple_movie_name_03',director:'sampale_derector_name_03'}}
+        post '/api/v1/movies', params: {
+          movie:{title:'samaple_movie_name_03'},
+          director:{first_name:'sample_first_name', last_name:'sample_last_name', age:20}
+        }
       }.to change {Movie.count}.from(0).to(1) #this is to check wheather record change in the db
       expect(response).to have_http_status(:created)
+      expect(Director.count).to eq(1)
     end
   end
   
