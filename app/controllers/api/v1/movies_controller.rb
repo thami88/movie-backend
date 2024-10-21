@@ -10,7 +10,8 @@ module Api
     
       def create
         # Initialized the record
-        movie = Movie.new(movie_params)
+        director = Director.create!(director_params)
+        movie = Movie.new(movie_params.merge(director_id: director.id))
     
         if movie.save
           render json: movie, status: :created
@@ -26,9 +27,13 @@ module Api
     
       private
     
+      def director_params
+        params.require(:director).permit(:first_name, :last_name, :age)
+      end
+
       def movie_params
         #other than title director will restricted by post method
-        params.require(:movie).permit(:title, :director)
+        params.require(:movie).permit(:title)
       end
     
     end
