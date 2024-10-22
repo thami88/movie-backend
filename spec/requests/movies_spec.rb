@@ -2,17 +2,38 @@ require 'rails_helper'
 
 RSpec.describe 'Movies API', type: :request do
 
+  let(:first_director) {FactoryBot.create(:director, first_name: 'Denis', last_name: 'Villa', age: 60)}
+  let(:second_director) {FactoryBot.create(:director, first_name: 'Kate', last_name: 'Middleton', age: 40)}
+
   describe 'GET /movies' do
 
     before do
-      FactoryBot.create(:movie, title:'samaple_01',director:'sampale derector_01')
-      FactoryBot.create(:movie, title:'samaple_02',director:'sampale derector_02')
+      FactoryBot.create(:movie, title:'Dune',director:first_director)
+      FactoryBot.create(:movie, title:'Lake',director:second_director)
     end
 
     it 'return all movies' do
       get '/api/v1/movies'
       expect(response).to have_http_status(:success)
-      expect(JSON.parse(response.body).size).to eq(10)
+      expect(response_body.size).to eq(2)
+      expect(response_body)
+        .to eq(
+              [
+                {
+                  'id' => 1,
+                  'title' => 'Dune',
+                  'director_name' => 'Denis Villa',
+                  'director_age' => 60
+                },
+                {
+                  'id' => 2,
+                  'title' => 'Lake',
+                  'director_name' => 'Kate Middleton',
+                  'director_age' => 40
+                }
+              ]
+
+            )
     end
   end
   
@@ -20,21 +41,30 @@ RSpec.describe 'Movies API', type: :request do
     it 'create a new movie' do
       expect {
         post '/api/v1/movies', params: {
-          movie:{title:'samaple_movie_name_03'},
-          director:{first_name:'sample_first_name', last_name:'sample_last_name', age:20}
+          movie:{title:'SuperMan'},
+          director:{first_name:'Zack', last_name:'Snyder', age:40}
         }
-      }.to change {Movie.count}.from(0).to(1) #this is to check wheather record change in the db
+      }.to change {Movie.count}.from(0).to(1) #this is to check whether record change in the db
       expect(response).to have_http_status(:created)
       expect(Director.count).to eq(1)
+      expect(response_body)
+        .to eq(
+                 {
+                   'id' => 1,
+                   'title' => 'SuperMan',
+                   'director_name' => 'Zack Snyder',
+                   'director_age' => 40
+                 }
+            )
     end
   end
   
   describe 'DELETE /movies/:id' do
-    let!(:movie)  { FactoryBot.create(:movie, title:'samaple_04',director:'sampale derector_04') }
+    let!(:movie)  { FactoryBot.create(:movie, title:'samaple_04',director:first_director) }
     it 'delete a movie' do
       expect {
         delete "/api/v1/movies/#{movie.id}"
-    }.to change {Movie.count}.from(9).to(8)
+    }.to change {Movie.count}.from(1).to(0)
       expect(response).to have_http_status(:no_content)
     end
   end
