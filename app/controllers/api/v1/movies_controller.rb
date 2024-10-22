@@ -5,7 +5,6 @@ module Api
       def index
         movies = Movie.all
         render json: MoviesRepresenter.new(movies).as_json
-
       end
     
       def create
@@ -14,7 +13,7 @@ module Api
         movie = Movie.new(movie_params.merge(director_id: director.id))
     
         if movie.save
-          render json: movie, status: :created
+          render json: MovieRepresenter.new(movie).as_json, status: :created
         else
           render json: movie.errors, status: :unprocessable_entity
         end
