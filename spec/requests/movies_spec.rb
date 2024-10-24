@@ -35,8 +35,44 @@ RSpec.describe 'Movies API', type: :request do
 
             )
     end
+
+    it 'returns a subset of movies based on limit' do
+      get '/api/v1/movies', params: {limit: 1}
+      expect(response).to have_http_status(:success)
+      expect(response_body.size).to eq(1)
+      expect(response_body)
+        .to eq(
+              [
+                {
+                  'id' => 1,
+                  'title' => 'Dune',
+                  'director_name' => 'Denis Villa',
+                  'director_age' => 60
+                }
+              ]
+
+            )
+    end
+
+    it 'returns a subset of movies based on offset' do
+      get '/api/v1/movies', params: {limit: 1, offset: 1}
+      expect(response).to have_http_status(:success)
+      expect(response_body.size).to eq(1)
+      expect(response_body)
+        .to eq(
+              [
+                {
+                  'id' => 2,
+                  'title' => 'Lake',
+                  'director_name' => 'Kate Middleton',
+                  'director_age' => 40
+                }
+              ]
+
+            )
+    end
   end
-  
+
   describe 'POST /movies' do
     it 'create a new movie' do
       expect {
