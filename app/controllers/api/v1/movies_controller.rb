@@ -1,5 +1,3 @@
-require 'net/http'
-
 module Api
   module V1
     class MoviesController < ApplicationController
@@ -16,8 +14,8 @@ module Api
         director = Director.create!(director_params)
         movie = Movie.new(movie_params.merge(director_id: director.id))
 
-        UpdateSkuJob.perform_later(movie_params[:name])
-    
+        UpdateSkuJob.perform_later(movie_params[:title])
+
         if movie.save
           render json: MovieRepresenter.new(movie).as_json, status: :created
         else
