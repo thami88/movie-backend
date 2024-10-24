@@ -13,7 +13,9 @@ module Api
         # Initialized the record
         director = Director.create!(director_params)
         movie = Movie.new(movie_params.merge(director_id: director.id))
-    
+
+        UpdateSkuJob.perform_later(movie_params[:title])
+
         if movie.save
           render json: MovieRepresenter.new(movie).as_json, status: :created
         else
